@@ -26,8 +26,6 @@ RUN curl https://downloads.getmonero.org/cli/`cat binary.txt` -O && \
   rm *.tar.bz2 && \
   rm -r monero-x86_64-linux-gnu-*
 
-FROM ubuntu:18.04
-
 RUN useradd -ms /bin/bash monero && mkdir -p /home/monero/.bitmonero && chown -R monero:monero /home/monero/.bitmonero
 USER monero
 WORKDIR /home/monero
