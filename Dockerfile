@@ -4,7 +4,7 @@
 
 FROM ubuntu:18.04 AS build
 
-ENV MONERO_VERSION=0.15.latest
+ENV MONERO_VERSION=0.17.latest
 
 RUN apt-get update && apt-get install -y curl bzip2 gawk git gnupg libpcsclite-dev
 
@@ -12,7 +12,7 @@ WORKDIR /root
 
 RUN git clone --depth=1 https://github.com/monero-project/monero.git && \
   gpg --import monero/utils/gpg_keys/* && \
-  curl https://src.getmonero.org/downloads/hashes.txt > hashes.txt && \
+  curl https://www.getmonero.org/downloads/hashes.txt > hashes.txt && \
   awk -i inplace '!p;/^-----END PGP SIGNATURE-----/{p=1}' hashes.txt && \
   gpg --verify hashes.txt && \
   cat hashes.txt| grep "monero-linux-x64-v" | awk -F"  " '{$0=$2}1' > binary.txt && \
@@ -25,6 +25,8 @@ RUN curl https://downloads.getmonero.org/cli/`cat binary.txt` -O && \
   cp ./monero-x86_64-linux-gnu-*/monerod . && \
   rm *.tar.bz2 && \
   rm -r monero-x86_64-linux-gnu-*
+
+FROM ubuntu:18.04
 
 RUN useradd -ms /bin/bash monero && mkdir -p /home/monero/.bitmonero && chown -R monero:monero /home/monero/.bitmonero
 USER monero
