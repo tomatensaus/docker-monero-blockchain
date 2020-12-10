@@ -6,7 +6,7 @@ FROM ubuntu:18.04 AS build
 
 RUN apt-get update && apt-get install -y curl bzip2 gawk git gnupg libpcsclite-dev
 
-ENV MONERO_VERSION=0.17.1.5.latest
+ENV MONERO_VERSION=0.17.1.6.latest
 
 WORKDIR /root
 
