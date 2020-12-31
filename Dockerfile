@@ -6,7 +6,7 @@ FROM ubuntu:18.04 AS build
 
 RUN apt-get update && apt-get install -y curl bzip2 gawk git gnupg libpcsclite-dev
 
-ENV MONERO_VERSION=0.17.1.7.latest
+ENV MONERO_VERSION=0.17.1.8.latest
 
 WORKDIR /root
 
@@ -26,8 +26,8 @@ RUN curl https://downloads.getmonero.org/cli/`cat binary.txt` -O && \
   rm *.tar.bz2 && \
   rm -r monero-x86_64-linux-gnu-*
 
-RUN echo "blockList new"
-RUN curl https://gui.xmr.pm/files/block_tor.txt  > block.txt
+#RUN echo "blockList new"
+#RUN curl https://gui.xmr.pm/files/block_tor.txt  > block.txt
 
 FROM ubuntu:18.04
 
@@ -36,7 +36,7 @@ USER monero
 WORKDIR /home/monero
 
 COPY --chown=monero:monero --from=build /root/monerod /home/monero/monerod
-COPY --chown=monero:monero --from=build /root/block.txt /home/monero/block.txt
+#COPY --chown=monero:monero --from=build /root/block.txt /home/monero/block.txt
 
 # blockchain loaction
 VOLUME /home/monero/.bitmonero
@@ -44,4 +44,4 @@ VOLUME /home/monero/.bitmonero
 EXPOSE 18080 18081 
 
 ENTRYPOINT ["./monerod"]
-CMD ["--restricted-rpc", "--rpc-bind-ip=0.0.0.0", "--confirm-external-bind", "--ban-list=/home/monero/block.txt"]
+CMD ["--restricted-rpc", "--rpc-bind-ip=0.0.0.0", "--confirm-external-bind", "--enable-dns-blocklist"]
