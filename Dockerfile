@@ -6,7 +6,7 @@ FROM ubuntu:18.04 AS build
 
 RUN apt-get update && apt-get install -y curl bzip2 gawk git gnupg libpcsclite-dev
 
-ENV MONERO_VERSION=0.17.1.8.latest
+ENV MONERO_VERSION=0.17.1.9.latest
 
 WORKDIR /root
 
@@ -44,4 +44,4 @@ VOLUME /home/monero/.bitmonero
 EXPOSE 18080 18081 
 
 ENTRYPOINT ["./monerod"]
-CMD ["--restricted-rpc", "--rpc-bind-ip=0.0.0.0", "--confirm-external-bind", "--enable-dns-blocklist"]
+CMD ["--restricted-rpc", "--rpc-bind-ip=0.0.0.0", "--confirm-external-bind"]
